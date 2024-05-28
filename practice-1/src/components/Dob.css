@@ -1,0 +1,21 @@
+.dob {
+    background-color: black;
+    color: aliceblue;
+
+    width : 5rem;
+    height: 5rem;
+
+    border-color: black;
+    border-style: outset;
+    border-radius: 25px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.date , p{  
+    font-weight: bold;
+    font-size: xx-large;
+}
