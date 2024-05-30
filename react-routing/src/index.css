@@ -6,3 +6,7 @@
   width: 100vw;
   height: 100vh;
 }
+.active {
+  color: aqua;
+  font-size: xx-large;
+}
