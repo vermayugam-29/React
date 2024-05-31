@@ -11,17 +11,19 @@ const App = () => {
   const [isLogin , setLogin] = useState(false);
 
   return (
-    <div>
+    <div className="w-screen h-screen bg-richblack-900 flex flex-col text-white">
+
         <Navbar isLogin={isLogin} setLogin={setLogin}/>
 
         <Routes>
 
             <Route path="/" element={<Home/>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/signup" element={<Signup/>} />
+            <Route path="/login" element={<Login setLogin={setLogin}/>} />
+            <Route path="/signup" element={<Signup setLogin={setLogin}/>} />
             <Route path="/dashboard" element={<Dashboard/>} />
 
         </Routes>
+
     </div>
   )
 }

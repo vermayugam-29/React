@@ -1,0 +1,14 @@
+.cardsDiv{
+    display: flex;
+    flex-direction: row;
+}
+.to-do-output{
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 30px;
+}
+.btns{
+    margin-left: 12px;
+    width: 5%;
+    height: 2.3rem;
+}
