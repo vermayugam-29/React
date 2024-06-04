@@ -3,11 +3,8 @@ import '../components/Input.css'
 import Card from './Card'
 import toast from 'react-hot-toast';
 
-
-
-const Input = ({idx,setIdx,lists,setLists}) => {
-
-    const [task , setTask] = useState('');
+const Input = ({ lists, setLists }) => {
+    const [task, setTask] = useState('');
 
     const changeHandler = (e) => {
         setTask(e.target.value);
@@ -19,29 +16,27 @@ const Input = ({idx,setIdx,lists,setLists}) => {
             toast.error("Please enter a valid task");
             return;
         }
-        const newTask = { id: idx,task : task };
-        setLists((prev) => [...prev, newTask]);
-        setIdx(idx+1);
+        const newTask = { id: lists.length, task: task };
+        setLists(prev => [...prev, newTask]);
         setTask('');
+        const newList = [...lists,newTask]
+        localStorage.setItem("prevData" , JSON.stringify(newList));
     }
 
-  return (
-    <div className='container'>
-      <form className='form' onSubmit={submitHandler}>
-        <input className='inputBox' value={task} onChange={changeHandler} type="text" />
-        <button className='btn' type='submit'>Enter</button>
-      </form>
+    return (
+        <div className='container'>
+            <form className='form' onSubmit={submitHandler}>
+                <input className='inputBox' value={task} onChange={changeHandler} type="text" />
+                <button className='btn' type='submit'>Add</button>
+            </form>
 
-
-      <div className='innerContainer'>
-        {
-            lists.map( (list) => {
-                return <Card index={list.id} lists={lists} key={list.id} list={list} setLists={setLists} />
-            })
-        }
-      </div>
-    </div>
-  )
+            <div className='innerContainer'>
+                {lists.map((list, index) => (
+                    <Card index={index} key={list.id} list={list} lists={lists} setLists={setLists} />
+                ))}
+            </div>
+        </div>
+    )
 }
 
 export default Input

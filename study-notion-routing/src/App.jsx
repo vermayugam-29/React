@@ -5,6 +5,7 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
 import { useState } from "react"
+import PrivateRoute from "./components/PrivateRoute"
 
 const App = () => {
 
@@ -17,10 +18,14 @@ const App = () => {
 
         <Routes>
 
-            <Route path="/" element={<Home/>} />
+            <Route path="/" element={<Home isLogin={isLogin} />} />
             <Route path="/login" element={<Login setLogin={setLogin}/>} />
             <Route path="/signup" element={<Signup setLogin={setLogin}/>} />
-            <Route path="/dashboard" element={<Dashboard/>} />
+            <Route path="/dashboard" element={
+              <PrivateRoute isLogin={isLogin} >
+              <Dashboard/>
+              </PrivateRoute>
+            } />
 
         </Routes>
 

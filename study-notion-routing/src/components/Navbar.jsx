@@ -34,7 +34,7 @@ const Navbar = (props) => {
             { !isLogin &&
                 <Link to="/login">
                     <button className='text-richblack-100 bg-richblack-800 py-[8px] px-[12px] rounded-lg border-richblack-700'
-                    onClick={()=> setLogin(true)}>
+                    >
                         Log In
                     </button>
                 </Link>

@@ -1,70 +1,74 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { MdDelete } from "react-icons/md";
-import { IoIosArrowUp , IoIosArrowDown} from "react-icons/io";
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
-import '../components/Card.css'
+import '../components/Card.css';
 import { TiTick } from "react-icons/ti";
+import { CiStar } from "react-icons/ci";
+import { FaStar } from "react-icons/fa";
 
-const Card = ({index,lists,list,setLists}) => {
+const Card = ({ index, lists, list, setLists }) => {
+    const [currTask, setCurrTask] = useState(list.task);
+    const [edit, setEdit] = useState(false);
+    const [star,setStar] = useState(false);
 
-    const[currTask,setCurrTask] = useState(list.task);
-
-    const [edit,setEdit] = useState(true);
-
-    const clickHandler = () => {
-        setLists((prev)=> prev.filter((task) => task.id !== list.id));
+    const deleteHandler = () => {
+        let newList = lists.filter(task => task.id !== list.id);
+        setLists(newList);
+        localStorage.setItem("prevData" , JSON.stringify(newList));
     }
 
     const upHandler = () => {
-        if(lists.length === 1 || index === 0){
-            return;
-        }
-        let newList = [...lists];
-        let temp = newList[index];
+        if (index === 0) return;
+        const newList = [...lists];
+        const temp = newList[index];
         newList[index] = newList[index - 1];
         newList[index - 1] = temp;
-        for(let i = 0;i < lists.length; i++){
-            newList[i].id = i;
-        }
-        setLists([...newList]);
+        setLists(newList);
+        localStorage.setItem("prevData" , JSON.stringify(newList));
     }
 
     const downHandler = () => {
-        if(lists.length === 1 || index === lists.length-1){
-            return;
+        if (index === lists.length - 1) return;
+        const newList = [...lists];
+        const temp = newList[index];
+        newList[index] = newList[index + 1];
+        newList[index + 1] = temp;
+        setLists(newList);
+        localStorage.setItem("prevData" , JSON.stringify(newList));
+    }
+
+    const editHandler = () => {
+        if (edit) {
+            const newList = [...lists];
+            newList[index].task = currTask;
+            setLists(newList);
+            localStorage.setItem("prevData" , JSON.stringify(newList));
         }
-        let newList = [...lists];
-        let temp = newList[list.id];
-        newList[list.id] = newList[list.id + 1];
-        newList[list.id + 1] = temp;
-        for(let i = 0;i < lists.length; i++){
-            newList[i].id = i;
-        }
-        setLists([...newList]);
+        setEdit(!edit);
     }
     
 
-    const editHandler = () => {
-        setEdit(!edit);
-    }
-
-    const changeHadler = (e) => {
+    const changeHandler = (e) => {
         setCurrTask(e.target.value);
-        let newList = [...lists];
-        const newTask = { id: index,task : currTask };
-        newList[index] = newTask;
-        setLists(newList);
-    }
+    } 
 
-  return (
-    <div className='cardsDiv'>
-        <input className='to-do-output' readOnly={edit} type="text" onChange={changeHadler} value={currTask}/>
-        <button className='btns' onClick={clickHandler}><MdDelete /></button>
-        <button className='btns' onClick={upHandler}><IoIosArrowUp /></button>
-        <button className='btns' onClick={downHandler}><IoIosArrowDown /></button>
-        <button className='btns' onClick={editHandler}>{!edit ? <TiTick /> :<CiEdit />}</button>
-    </div>
-  )
+
+   
+
+    return (
+        <div className='cardsDiv'>
+            <input className={`to-do-output ${edit ? 'editable' : 'read-only'}`} readOnly={!edit} type="text" onChange={changeHandler} value={currTask} />
+            <button className='btns' onClick={deleteHandler}><MdDelete /></button>
+            <button className='btns' onClick={upHandler}><IoIosArrowUp /></button>
+            <button className='btns' onClick={downHandler}><IoIosArrowDown /></button>
+            <button className='btns' onClick={editHandler}>
+                {
+                    edit ? <TiTick className="tick-icon" /> : <CiEdit />
+                }
+            </button>
+        </div>
+    )
 }
 
-export default Card
+export default Card;
