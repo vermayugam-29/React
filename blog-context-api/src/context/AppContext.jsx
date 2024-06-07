@@ -1,21 +1,30 @@
 import { createContext, useEffect, useState } from "react";
 import { baseUrl } from "../baseUrl";
+import { useNavigate } from "react-router-dom";
 
 export const AppContext = createContext();
 
 export default function AppContextProvider({children}) {
+
+    const newUrl = `https://codehelp-apis.vercel.app/api/`
+
     const [loading , setLoading] = useState(false);
     const [posts , setPosts] = useState([]);
     const [page , setPage] = useState(1);
     const [totalPages , setTotalPages] = useState(null);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchBlog();
-    },[])
 
-    async function fetchBlog (page)  {
+
+    async function fetchBlog (page = 1, tag = null, category)  {
         setLoading(true);
         let url = `${baseUrl}?page=${page}`
+        if(tag){
+            url += `&tag=${tag}`;
+        } 
+        if(category){
+            url += `&category=${category}`
+        }
 
         try {
             const response = await fetch(url);
@@ -35,7 +44,8 @@ export default function AppContextProvider({children}) {
 
     const pageChangeHandler = (page) => {
         setPage(page);
-        fetchBlog(page);
+        // fetchBlog(page); //isse url ke andar page change nahi ho raha but navigae se ho raha ha  
+        navigate({search : `?page=${page}`})
     }
 
     const data = {
