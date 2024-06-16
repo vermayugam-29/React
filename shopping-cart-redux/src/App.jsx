@@ -4,10 +4,13 @@ import {Routes , Route} from 'react-router-dom'
 import Home from './routes/Home.jsx'
 import Cart from './routes/Cart.jsx'
 
+
 const App = () => {
   return (
     <div className='w-full h-full'>
-      <Navbar />
+      <div className='bg-slate-900'>
+        <Navbar />
+      </div>
 
 
       <Routes>

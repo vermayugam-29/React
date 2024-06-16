@@ -3,42 +3,46 @@ import Spinner from '../components/Spinner.jsx'
 import Card from '../components/Card.jsx'
 
 const Home = () => {
-    const API_URL = "https://fakestoreapi.com/products";
+  const API_URL = "https://fakestoreapi.com/products";
 
-    const [loading , setLoading] = useState(false);
-    const [products , setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState([]);
 
-    const fetchProductData = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
+  const fetchProductData = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
 
-        setProducts(data);
-      } catch (error) {
-        setProducts([]);
-      }
-      setLoading(false);
+      setProducts(data);
+    } catch (error) {
+      setProducts([]);
     }
+    setLoading(false);
+  }
 
-    useEffect(() => {
-      fetchProductData();
-    } , [])
-    
+  useEffect(() => {
+    fetchProductData();
+  }, [])
+
   return (
-    <div className='flex justify-center'>
-      <div className='w-3/4 flex flex-wrap  gap-y-2'>
-        {
-          loading ? <Spinner/> :
-          products.length != 0 ? 
-          products.map( (product) => (
-            <Card key = {product.id} product = {product} />
-          )) :
-          <div>
-            No Products Found
-          </div>
-        }
-      </div>
+    <div>
+      {
+        loading ? <Spinner /> :
+          products.length != 0 ?
+            <div  className="grid  xs:gridcols-1 sm:grid-cols-2 md:grid-cols-3
+             lg:grid-cols-4 max-w-6xl p-2 mx-auto space-y-10 space-x-5 min-h-[80vh]">
+              {
+                products.map((product) => (
+                  <Card key={product.id} product={product} />
+                )) 
+              }
+            </div>
+            :
+            <div  className="flex justify-center items-center">
+              <p>No Products Found</p>
+            </div>
+      }
     </div>
   )
 }
